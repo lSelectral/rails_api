@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require_relative "../config/boot"
+require "sidekiq/cli"
+Sidekiq::CLI.instance.run

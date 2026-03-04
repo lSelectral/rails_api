@@ -1,0 +1,25 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  #url: <%= ENV['DATABASE_URL'] %>
+
+development:
+  <<: *default
+  username: verimor
+  database: verimor_sms_development
+  password: verimor123
+  host: db
+  port: 5432
+
+test:
+  <<: *default
+  database: verimor_sms_test
+  username: verimor
+  password: verimor123
+  host: db
+  port: 5432
+
+production:
+  <<: *default
+  #url: <%= ENV["DATABASE_URL"] %>
