@@ -3,7 +3,9 @@ module Api
     class BalanceController < ApplicationController
       # GET /api/v2/balance
       def show
-        cache_key = "balance_cache"
+        
+        cache_key = "balance_cache:#{current_user.id}"
+   
         cached = redis.get(cache_key)
         return render plain: cached, status: :ok if cached.present?
 
