@@ -20,7 +20,7 @@ module Api
         messages = messages.where(dest: params[:dest]) if params[:dest].present?
 
         if params[:greater_than].present?
-          messages = messages.where('id < ?', params[:greater_than].to_i)
+          messages = messages.where('id > ?', params[:greater_than].to_i)
         end
 
         messages = messages.limit(100)
