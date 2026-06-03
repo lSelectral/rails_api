@@ -18,8 +18,27 @@ module Api
           end
         end
 
-        source_addr = params[:source_addr] || current_user.sms_headers.active.first&.name
-        return render plain: 'INVALID_SOURCE_ADDRESS', status: :bad_request if source_addr.blank?
+        
+
+        # source_addr = params[:source_addr] || current_user.sms_headers.first&.name
+        source_addr = params[:source_addr]
+        if source_addr
+          # Validate that the source_addr exists and belongs to the current_user in sms_headers
+          unless current_user.sms_headers.exists?(name: source_addr, active: true)
+            return render plain: 'INVALID_SOURCE_ADDRESS', status: :bad_request
+          end
+     
+        else
+          # Try to get the user's first sms header and check if it is active
+          header = current_user.sms_headers.first
+          if header.nil? || !header.active
+            return render plain: 'INVALID_SOURCE_ADDRESS', status: :bad_request
+          end
+          source_addr = header.name
+        end
+
+        
+        # return render plain: 'INVALID_SOURCE_ADDRESS', status: :bad_request if source_addr.blank?
 
         # Kredi kontrolü
         total_credits = dest_numbers.count

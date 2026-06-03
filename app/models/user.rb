@@ -9,7 +9,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
 
   def has_sufficient_credits?(amount)
-    credits >= 0
+    amount > 0 && credits >= amount
   end
 
   def deduct_credits!(amount)
